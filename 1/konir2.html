@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Абай облысының қасиетті орындары</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css"/>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+display:flex;
+height:100vh;
+}
+
+#sidebar{
+width:720px;
+background:#f4f4f4;
+padding:15px;
+overflow:auto;
+border-right:1px solid #ccc;
+}
+
+#map{
+flex:1;
+}
+
+h2{
+margin-top:0;
+}
+
+.place{
+padding:10px;
+border-bottom:1px solid #ddd;
+cursor:pointer;
+}
+
+.place:hover{
+background:#e7e7e7;
+}
+
+#search{
+width:100%;
+padding:8px;
+margin-bottom:10px;
+}
+
+.slider{
+display:flex;
+align-items:center;
+gap:5px;
+margin-top:5px;
+}
+
+.slider img{
+width:100%;
+border-radius:6px;
+}
+
+.slider button{
+background:#6a2bbf;
+color:white;
+border:none;
+padding:5px 8px;
+cursor:pointer;
+border-radius:4px;
+}
+
+.routeBtn{
+margin-top:8px;
+padding:6px;
+background:#6a2bbf;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="sidebar">
+
+<h2>Қасиетті орындар</h2>
+
+<input type="text" id="search" placeholder="Іздеу">
+
+<div id="placesList"></div>
+
+</div>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+<script>
+
+var map = L.map('map').setView([50.411,80.227],7);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+attribution:'© OpenStreetMap'
+}).addTo(map);
+
+
+var userLocation=null;
+
+navigator.geolocation.getCurrentPosition(function(position){
+
+userLocation=[
+position.coords.latitude,
+position.coords.longitude
+];
+
+L.marker(userLocation)
+.addTo(map)
+.bindPopup("Сіздің орналасқан жеріңіз")
+.openPopup();
+
+map.setView(userLocation,10);
+
+});
+
+
+var places=[
+
+{
+name:"Қоңыр-әулие үңгірі",
+coords:[49.25348480392089, 78.52474212215016],
+description:"Қоңыр әулие үңгірі – Абай облысының жергілікті маңызы бар тарих және мәдениет ескерткіштерінің тізіміне, Қазақстанның жалпыұлттық қасиетті нысандар тізбесіне енген, киелі нысан.",
+images:[
+"Konyr.jpg",
+"Konyr2.jpg",
+"Konyr3.jpg",
+"Konyr4.jpg"
+]
+
+}
+
+
+
+];
+
+
+var routingControl=null;
+
+function buildRoute(destination){
+
+if(!userLocation){
+alert("Не удалось определить ваше местоположение");
+return;
+}
+
+if(routingControl){
+map.removeControl(routingControl);
+}
+
+routingControl=L.Routing.control({
+
+waypoints:[
+L.latLng(userLocation),
+L.latLng(destination)
+],
+
+routeWhileDragging:false
+
+}).addTo(map);
+
+}
+
+
+
+var list=document.getElementById("placesList");
+
+places.forEach(function(place){
+
+var marker=L.marker(place.coords)
+.addTo(map)
+.bindPopup("<b>"+place.name+"</b><br>"+place.description);
+
+
+var div=document.createElement("div");
+div.className="place";
+
+div.innerHTML=
+"<b>"+place.name+"</b>"+
+"<div class='slider'>"+
+"<button class='prev'>◀</button>"+
+"<img src='"+place.images[0]+"' class='slideImg'>"+
+"<button class='next'>▶</button>"+
+"</div>"+
+"<p>"+place.description+"</p>"+
+"<button class='routeBtn'>Маршрут</button>";
+
+
+div.onclick=function(){
+map.setView(place.coords,12);
+marker.openPopup();
+};
+
+
+div.querySelector(".routeBtn").onclick=function(e){
+e.stopPropagation();
+buildRoute(place.coords);
+};
+
+
+var index=0;
+var img=div.querySelector(".slideImg");
+
+
+div.querySelector(".next").onclick=function(e){
+e.stopPropagation();
+index++;
+if(index>=place.images.length) index=0;
+img.src=place.images[index];
+};
+
+
+div.querySelector(".prev").onclick=function(e){
+e.stopPropagation();
+index--;
+if(index<0) index=place.images.length-1;
+img.src=place.images[index];
+};
+
+
+list.appendChild(div);
+
+});
+
+
+document.getElementById("search").addEventListener("input",function(){
+
+var text=this.value.toLowerCase();
+
+var items=document.getElementsByClassName("place");
+
+for(var i=0;i<items.length;i++){
+
+var name=items[i].querySelector("b").innerText.toLowerCase();
+
+if(name.includes(text)){
+items[i].style.display="block";
+}else{
+items[i].style.display="none";
+}
+
+}
+
+});
+
+</script>
+
+</body>
+</html>

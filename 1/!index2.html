@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Абай облысының қасиетті мекендері</title>
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:Segoe UI;
+background:#f4f6f8;
+overflow-x:hidden;
+}
+
+/* HERO */
+
+.hero{
+height:100vh;
+background:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),
+url("tyt.webp");
+background-size:cover;
+background-position:center;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+color:white;
+text-align:center;
+animation:fadeIn 2s;
+}
+
+.hero h1{
+font-size:55px;
+margin:0;
+}
+
+.hero p{
+font-size:22px;
+margin-top:10px;
+}
+
+.hero button{
+margin-top:30px;
+padding:15px 30px;
+font-size:18px;
+border:none;
+border-radius:30px;
+background:#ff7a00;
+color:white;
+cursor:pointer;
+}
+
+/* ANIMATION */
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(40px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+/* SECTION */
+
+.section{
+padding:60px 10%;
+}
+
+.section h2{
+text-align:center;
+margin-bottom:40px;
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
+}
+
+.card{
+background:white;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 5px 14px rgba(0,0,0,0.2);
+transition:transform 0.3s;
+animation:fadeIn 1.5s;
+}
+
+.card:hover{
+transform:scale(1.05);
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.card h3{
+margin:12px;
+}
+
+.card p{
+margin:12px;
+font-size:14px;
+color:#555;
+}
+
+/* MAP */
+
+#map{
+height:650px;
+border-radius:12px;
+margin-top:40px;
+}
+
+</style>
+</head>
+
+<div class="section" id="places">
+
+<h2>Қасиетті мекендер</h2>
+
+<div class="grid">
+
+<div class="card">
+<img src="mav_abay.webp">
+<a href="memorial2.html">
+<h3>АБАЙ-ШӘКӘРІМ «МЕМОРИАЛДЫҚ КЕШЕНІ</h3>
+</a>
+<p></p>
+</div>
+
+<div class="card">
+<img src="muzei.webp">
+<a href="mura2.html">
+<h3>АБАЙ МҰРАЖАЙЫ </h3>
+</a>
+<p></p>
+</div>
+
+<div class="card">
+<img src="wowkaly.jpeg">
+<a href="wipali2.html">
+<h3>ШИПАЛЫ (Шошқалы) КӨЛІ</h3>
+</a>
+<p></p>
+</div>
+
+<div class="card">
+<img src="Konyr.jpg">
+<a href="konir2.html">
+<h3>Қоңыр-әулие үңгірі</h3>
+</a>
+<p></p>
+</div>
+
+<div class="card">
+<img src="enlik-kebek.jpeg">
+<a href="enlik2.html">
+<h3>Еңлік-Кебек кесенесі</h3>
+</a>
+<p></p>
+</div>
+
+<div class="card">
+<img src="akw.jpg">
+<a href="!akw.html">
+<h3>Ақшоқы</h3>
+</a>
+<p></p>
+</div>
+
+<div class="card">
+<img src="yrg.jpg">
+<a href="yrg2.html">
+<h3>Ырғызбай ата кесенесі</h3>
+</a>
+<p></p>
+</div>
+
+</div>
+
+</body>
+</html>
